@@ -59,6 +59,7 @@ void turn (int * board) {
 }
 
 int game() {
+  char input[BUFFER_SIZE];
   printf("Press ENTER to start the game or input \"quit\" to quit the game.");  
   fgets(input, BUFFER_SIZE, stdin);
   if (strcmp(input, "\n") == 0) {
