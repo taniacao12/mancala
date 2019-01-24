@@ -21,7 +21,7 @@ int main(int argc, char ** argv) {
   printf("Waiting for other player to join...\n");
   char receive[100];
   read(server_socket, receive, 100);
-  printf("%s\n", receive);
+  printf("receive: [%s]\n", receive);
   
   // start game if user is ready
   printf("If you are ready, press ENTER to start the game.");  
