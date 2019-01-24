@@ -82,10 +82,8 @@ int game() {
   char input[BUFFER_SIZE];
   printf("Press ENTER to start the game or input \"quit\" to quit the game.");  
   fgets(input, BUFFER_SIZE, stdin);
-  if (strcmp(input, "\n") == 0) {
-    printf("-----------------------------------------------------\n");
+  if (strcmp(input, "\n") == 0)
     return 1;
-  }
   else if (strcmp(input, "quit\n") == 0) {
     printf("We are sorry to see you go. Please come back soon!\n");
     return -1;

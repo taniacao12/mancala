@@ -46,7 +46,7 @@ void subserver(int player1, int player2) {
   char buffer[BUFFER_SIZE];
   strcpy(buffer, "44444404444440");
   
-  while (1) {
+  while (buffer != "quit") {
     // permits player1 to play
     write(player1, buffer, sizeof(buffer));
 	

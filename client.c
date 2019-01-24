@@ -32,8 +32,10 @@ int main(int argc, char ** argv) {
     read(server_socket, data, BUFFER_SIZE);
 
     // check whose turn it is
-    if (data == "gameOver")
+    if (data == "gameOver") {
       start = 0;
+      break;
+    }
     else {
       // process data recieved from server
       listify(data, board);
@@ -49,8 +51,10 @@ int main(int argc, char ** argv) {
       sum = 0;
       for (int i = 7; i < 14; i++)
 	sum += board[i];
-      if (sum == 0)
+      if (sum == 0) {
 	start = 0;
+	break;
+      }
 
       // convert results (board data) into a string
       char results[BUFFER_SIZE];
@@ -60,5 +64,6 @@ int main(int argc, char ** argv) {
       write(server_socket, results, BUFFER_SIZE);
     }
   }
+  write(server_socket, "quit", BUFFER_SIZE);
   return 0;
 }
