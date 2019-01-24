@@ -25,8 +25,11 @@ void listify (char * string, int * board) {
   char temp[14];
   for (int i = 0; i < 14; i++)
 	temp[i] = strsep(string, " ");
-  for (int i = 0; i < 14; i++)
-    board[i] = atoi(temp[i]);
+  for (int i = 0; i < 14; i++) {
+    board[i] = temp[i] - '0';
+	printf("temp[%d] = %d\n", i, temp[i]);
+	printf("board[%d] = %d\n", i, board[i]);
+  }
 }
 
 void stringify (char * string, int * board) {
