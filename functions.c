@@ -56,7 +56,7 @@ void process (int * board) {
   fgets(input, BUFFER_SIZE, stdin);
   num = update(*input, board);
   if (!num)
-    process();
+    process(board);
 }
 
 void print (int * board) {
