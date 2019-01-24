@@ -35,7 +35,8 @@ int main(int argc, char ** argv) {
   printf("-----------------------------------------------------\n");
 
   // board created to send to server
-  int board[14] = {4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0};
+  int board[14];
+  make(board);
   int sum = 0;
   
   while (1) {

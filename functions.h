@@ -10,4 +10,4 @@ void listify (char * string, int * board); // convert string into int array
 int convert (char bucket); // convert user bucket of choice into integer
 
 // might not be necessary unless we implement restart game
-int * makeBoard(); // make new board
+int * make(); // make new board

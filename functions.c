@@ -58,6 +58,15 @@ void turn() {
 
 }
 
+void make(int * board) {
+	for (int i = 0; i < 14; i++) {
+		if (i == 6 || i == 13)
+			board[i] = 0;
+		else
+			board[i] = 4;
+	}
+}
+
 void instructions() {
   char data[BUFFER_SIZE];
   printf("Do you want the game instructions? (y/n) ");
