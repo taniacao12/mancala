@@ -1,7 +1,7 @@
 #include "functions.h"
 #include "networking.h"
 
-int check (int * board) {
+int check (int * board, int server_socket) {
   int user1 = 0;
   int user2 = 0;
     

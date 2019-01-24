@@ -47,7 +47,7 @@ int main(int argc, char ** argv) {
       print(board);
 	
       // check if game is over
-      if (check(board) == 0) {
+      if (check(board, server_socket) == 0) {
 	start = 0;
 	break;
       }
