@@ -25,7 +25,6 @@ int main(int argc, char ** argv) {
   // start game if user is ready
   start = game();
   int board[14];
-  int sum;
   
   while (start == 1) {
     // player waits for confirmation from the server to start
@@ -48,16 +47,7 @@ int main(int argc, char ** argv) {
       print(board);
 	
       // check if game is over
-      sum = 0;
-      for (int i = 7; i < 14; i++)
-	sum += board[i];
-      if (sum == 0) {
-	for (int i = 0; i < 7; i++)
-	  sum += board[i];
-	if (sum > board[14])
-	  write(server_socket, "lose", BUFFER_SIZE);
-	else
-	  write(server_socket, "win", BUFFER_SIZE);
+      if (check(board) == 0) {
 	start = 0;
 	break;
       }
@@ -71,7 +61,8 @@ int main(int argc, char ** argv) {
     }
   }
   read(server_socket, data, BUFFER_SIZE);
-  printf("%s\n", data);
+  if (data != "44444404444440")
+    printf("%s\n", data);
   write(server_socket, "Game Over", BUFFER_SIZE);
   return 0;
 }

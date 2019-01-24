@@ -1,11 +1,28 @@
 #include "functions.h"
 #include "networking.h"
 
-void listify (char * string, int * board) {
-  for (int i = 0; i < 14; i++){
-    //printf("board[%d]: %d\n", i, (string[i] - '0'));
-    board[i] = string[i] - '0';
+int check (int * board) {
+  int user1 = 0;
+  int user2 = 0;
+    
+  for (int i = 7; i < 13; i++)
+    user1 += board[i];
+  if (user1 == 0) {
+    user1 += board[13];
+    for (int i = 0; i < 7; i++)
+      user2 += board[i];
+    if (user2 > user1)
+      write(server_socket, "lose", BUFFER_SIZE);
+    else
+      write(server_socket, "win", BUFFER_SIZE);
+    return 0;
   }
+  return 1;
+}
+
+void listify (char * string, int * board) {
+  for (int i = 0; i < 14; i++)
+    board[i] = string[i] - '0';
 }
 
 void stringify (char * string, int * board) {
@@ -36,7 +53,9 @@ int convert (char bucket) {
 
 int update (char bucket, int * board) {
   int cup = convert(bucket) + 7;
-  if (cup) {
+  if (cup == 0)
+    return 0;
+  else {
     for (int i = cup; i < 14 && board[cup] > 0; i++) {
       board[i] += 1;
       board[cup] -= 1;
@@ -45,8 +64,6 @@ int update (char bucket, int * board) {
     }
     return 1;
   }
-  else
-    return 0;
 }
 
 void process (int * board) {
@@ -55,7 +72,7 @@ void process (int * board) {
   printf("Which cup would you like to choose? ");
   fgets(input, BUFFER_SIZE, stdin);
   num = update(*input, board);
-  if (!num)
+  if (num == 0)
     process(board);
 }
 
