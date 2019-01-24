@@ -1,20 +1,11 @@
 #include "functions.h"
 #include "networking.h"
 
-int convert (char bucket) {
-  char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F'};
-  for (int i = 0; i < 6; i++) {
-    if (bucket == alpha[i])
-      return i;
-  }
-  return 0;
-}
-
 void listify (char * string, int * board) {
   for (int i = 0; i < 14; i++){
-	//printf("board[%d]: %d\n", i, (string[i] - '0'));
+    //printf("board[%d]: %d\n", i, (string[i] - '0'));
     board[i] = string[i] - '0';
-	}
+  }
 }
 
 void stringify (char * string, int * board) {
@@ -28,20 +19,44 @@ void flip (int * board) {
       temp[i] = board[i - 7];
     else{
       temp[i] = board[i + 7];
-	}
+    }
   }
   for (int i = 0; i < 14; i++)
     board[i] = temp[i];
 }
 
-void update (char bucket, int * board) {
-  int cup = convert(bucket) + 7;
-  for (int i = cup; i < 14 && board[cup] > 0; i++) {
-    board[i] += 1;
-    board[cup] -= 1;
-    if (i == 13 && board[cup] > 0)
-      i = -1;
+int convert (char bucket) {
+  char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F'};
+  for (int i = 0; i < 6; i++) {
+    if (bucket == alpha[i])
+      return i;
   }
+  return 0;
+}
+
+int update (char bucket, int * board) {
+  int cup = convert(bucket) + 7;
+  if (cup) {
+    for (int i = cup; i < 14 && board[cup] > 0; i++) {
+      board[i] += 1;
+      board[cup] -= 1;
+      if (i == 13 && board[cup] > 0)
+	i = -1;
+    }
+    return 1;
+  }
+  else
+    return 0;
+}
+
+void process (int * board) {
+  char input[BUFFER_SIZE];
+  int num;
+  printf("Which cup would you like to choose? ");
+  fgets(input, BUFFER_SIZE, stdin);
+  num = update(*input, board)
+    if (!num)
+      process();
 }
 
 void print (int * board) {
@@ -54,8 +69,13 @@ void print (int * board) {
   printf("     A   B   C   D   E   F   \n"); 
 }
 
-void turn (int * board) {
-	//board = read(server_socket, results, BUFFER_SIZE);
+void make(int * board) {
+  for (int i = 0; i < 14; i++) {
+    if (i == 6 || i == 13)
+      board[i] = 0;
+    else
+      board[i] = 4;
+  }
 }
 
 int game() {
@@ -63,24 +83,15 @@ int game() {
   printf("Press ENTER to start the game or input \"quit\" to quit the game.");  
   fgets(input, BUFFER_SIZE, stdin);
   if (strcmp(input, "\n") == 0) {
-	  printf("-----------------------------------------------------\n");
-	  return 1;
+    printf("-----------------------------------------------------\n");
+    return 1;
   }
   else if (strcmp(input, "quit\n") == 0) {
-	  printf("We are sorry to see you go. Please come back soon!\n");
-	  return -1;
+    printf("We are sorry to see you go. Please come back soon!\n");
+    return -1;
   }
   else
-	  game();
-}
-
-void make(int * board) {
-	for (int i = 0; i < 14; i++) {
-		if (i == 6 || i == 13)
-			board[i] = 0;
-		else
-			board[i] = 4;
-	}
+    game();
 }
 
 void instructions() {
@@ -119,4 +130,3 @@ void instructions() {
     return;
   else instructions();
 }
-

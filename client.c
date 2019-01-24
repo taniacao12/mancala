@@ -3,11 +3,9 @@
 
 int main(int argc, char ** argv) {
   int server_socket;
-  int start = 0; // has the game started? 0 = false, 1 = true, -1 = quit
+  int start = 0; // has the game started? 0 = false, 1 = true
   char input[BUFFER_SIZE]; // user input
-  char buffer[BUFFER_SIZE];
-  char data[BUFFER_SIZE];
-  //char user[BUFFER_SIZE];
+  char data[BUFFER_SIZE]; // data received from server
 
   if (argc == 2)
     server_socket = client_setup( argv[1]);
@@ -27,52 +25,40 @@ int main(int argc, char ** argv) {
   // start game if user is ready
   start = game();
   int board[14];
-  make(board);
-  int sum = 0;
+  int sum;
   
   while (start == 1) {
     // player waits for confirmation from the server to start
-    int r0 = read(server_socket, data, BUFFER_SIZE);
+    read(server_socket, data, BUFFER_SIZE);
 
-    //sees whose turn it is
-    if (data[0] == 'h')
-      printf("\n");
+    // check whose turn it is
+    if (data == 'gameOver')
+      start = 0;
     else {
-      // listify the string 
+      // process data recieved from server
       listify(data, board);
+      flip(board);
+      printf("-----------------------------------------------------\n");
+      print(board);
+	
+      // process board based on user input
+      process(board);
+      print(board);
+	
+      // check if game is over
       sum = 0;
-      for (int n=8; n<14; n++)
-	sum += board[n];
-      if (!sum){
-	printf("GAME OVER");}
-    } 
+      for (int i = 7; i < 14; n++)
+	sum += board[i];
+      if (sum == 0)
+	start = 0;
 
-    // wait for and recieve player B's results from server
-    //int r = read(server_socket, results, BUFFER_SIZE);
-    
-    // convert player B's string results back into an array
-    //listify(results, board);
-			
-    // get player A's user input
+      // convert results (board data) into a string
+      char results[BUFFER_SIZE];
+      stringify(results, board);
 
-    print(board);
-    printf("Which cup would you like to choose? ");
-    fgets(data, BUFFER_SIZE, stdin);
-  
-    // update board based on player A's input
-    update(*data, board);
-    print(board);
-    printf("-----------------------------------------------------\n");
-
-    // flip the results so it matches the orientation of the opponent
-    flip(board);
-
-    // convert results (board data) into a string
-    char results[BUFFER_SIZE];
-    stringify(results, board);
-
-    // send string to the server
-    int w = write(server_socket, results, BUFFER_SIZE);
-	}
+      // send string to the server
+      write(server_socket, results, BUFFER_SIZE);
+    }
+  }
   return 0;
 }
