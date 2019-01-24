@@ -1,0 +1,8 @@
+We apologize for not being detailed...
+We couldn't really keep up with our plan.
+
+We did divide up the work pretty fairly, here's the summary of what we did:
+Fareeha: DESIGN document, basic socket, player-to-server-to-player communication, taking turns, instructions, print, README, DEVLOG
+Tania: DESIGN document, stringify, listify, flip, update, print, instructions, initial main in client.c
+
+We both helped each other out and contributed to everything listed here, but I just listed the main person taking care of each thing.

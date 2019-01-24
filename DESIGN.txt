@@ -1,20 +1,10 @@
-# Final Project 
-# teaMancala
-Fareeha Tabassum and Tania Cao
-Period 5
+TeaMancala
+Team TT [Fareeha Tabassum, Tania Cao]
+Systems 05
 
-## Description of Project:
 Mancala: A two-player board game using marbles or stones.
 
-## Instructions on how to use this project
-1. make
-2. run ./server
-3. on another terminal run ./client
-4. complete the directions there (or do step 5-- will result in the same thing) 
-5. on another terminal run ./client
-6. play the game!
-
-### Rules of the Game:
+Rules for Basic Mancala and User-Interface:
 1.  Each user gets six cups and one mancala(M). The cups and mandala will be formatted as shown below.
     Each player's cups and mancala will be located at the bottom of the board.
         
@@ -44,3 +34,26 @@ Mancala: A two-player board game using marbles or stones.
 4.  The game ends when all six cups on either side of the board are empty. The player with remaining marbles
     in their cups at the end of a game automatically places the marbles into their own mancala.
     The player with the most marbles in their mancala is the winner of the game.
+		
+Topics covered:
+ *  Allocating memory: store game progress so it can be resumed at a later time
+ *  Working w/ Files: memory will be saved in files
+ *  Processes: uses multiple processes
+ *  Signals: handle forced user log offs
+ *  Pipes: send player-player data
+ *  Networking: multiple computers
+	
+Responsibilities:
+- buckets and user-interface design: Tania
+- file storage: Fareeha, Tania
+- implementation of game rules: Tania
+- player to player connection: Fareeha, Tania
+- account storing: Fareeha, Tania
+
+Timeline:
+01/03:  proposal
+01/05:  buckets, user-interface design 
+01/08:  file storage
+01/10:  implementation of game rules
+01/15:  player to player connection
+01/17:  account storing
