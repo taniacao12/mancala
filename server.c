@@ -46,13 +46,21 @@ void subserver(int player1, int player2) {
   char buffer[BUFFER_SIZE];
   strcpy(buffer, "44444404444440");
   
-  while (buffer != "quit") {
+  while (buffer != "Game Over") {
     // permits player1 to play
     write(player1, buffer, sizeof(buffer));
 	
     // gets player1's board response (a string instead of an array)
     read(player1, buffer, sizeof(buffer));
     printf("[subserver %d] received [%s] from player 1\n", getpid(), buffer);
+    if (buffer == "win") {
+      write(player1, "-------------------- Unfortunately, you lost... --------------------\n", sizeof(buffer));
+      write(player2, "-------------------- Congradulations, you won! --------------------\n", sizeof(buffer));
+    }
+    else if (buffer == "lose") {
+      write(player1, "-------------------- Congradulations, you won! --------------------\n", sizeof(buffer));
+      write(player2, "-------------------- Unfortunately, you lost... --------------------\n", sizeof(buffer));
+    }
 	
     // permits player2 to play
     write(player2, buffer, sizeof(buffer));
@@ -60,7 +68,15 @@ void subserver(int player1, int player2) {
 	
     // gets player2's board response (a string instead of an array)
     read(player2, buffer, sizeof(buffer));
-    printf("[subserver %d] received [%s] from player 2\n", getpid(), buffer);	
+    printf("[subserver %d] received [%s] from player 2\n", getpid(), buffer);
+    if (buffer == "win") {
+      write(player1, "-------------------- Unfortunately, you lost... --------------------\n", sizeof(buffer));
+      write(player2, "-------------------- Congradulations, you won! --------------------\n", sizeof(buffer));
+    }
+    else if (buffer == "lose") {
+      write(player1, "-------------------- Congradulations, you won! --------------------\n", sizeof(buffer));
+      write(player2, "-------------------- Unfortunately, you lost... --------------------\n", sizeof(buffer));
+    }
   }
   close(player1);
   close(player2);

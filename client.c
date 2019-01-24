@@ -32,7 +32,7 @@ int main(int argc, char ** argv) {
     read(server_socket, data, BUFFER_SIZE);
 
     // check whose turn it is
-    if (data == "gameOver") {
+    if (data == "Game Over") {
       start = 0;
       break;
     }
@@ -52,6 +52,12 @@ int main(int argc, char ** argv) {
       for (int i = 7; i < 14; i++)
 	sum += board[i];
       if (sum == 0) {
+	for (int i = 0; i < 7; i++)
+	  sum += board[i];
+	if (sum > board[14])
+	  write(server_socket, "lose", BUFFER_SIZE);
+	else
+	  write(server_socket, "win", BUFFER_SIZE);
 	start = 0;
 	break;
       }
@@ -64,6 +70,8 @@ int main(int argc, char ** argv) {
       write(server_socket, results, BUFFER_SIZE);
     }
   }
-  write(server_socket, "quit", BUFFER_SIZE);
+  read(server_socket, data, BUFFER_SIZE);
+  printf("%s\n", data);
+  write(server_socket, "Game Over", BUFFER_SIZE);
   return 0;
 }
