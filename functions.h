@@ -4,6 +4,7 @@ void process(char * name);
 
 // functions for client ------------------------------------------------------------
 void instructions(); // display instructions
+void game();
 void turn(); // play turn;
 
 // helper functions

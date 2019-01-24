@@ -54,8 +54,23 @@ void print (int * board) {
   printf("     A   B   C   D   E   F   \n"); 
 }
 
-void turn(int * board) {
+void turn (int * board) {
 	//board = read(server_socket, results, BUFFER_SIZE);
+}
+
+int game() {
+  printf("Press ENTER to start the game or input \"quit\" to quit the game.");  
+  fgets(input, BUFFER_SIZE, stdin);
+  if (strcmp(input, "\n") == 0) {
+	  printf("-----------------------------------------------------\n");
+	  return 1;
+  }
+  else if (strcmp(input, "quit\n") == 0) {
+	  printf("We are sorry to see you go. Please come back soon!\n");
+	  return -1;
+  }
+  else
+	  game();
 }
 
 void make(int * board) {
@@ -68,10 +83,10 @@ void make(int * board) {
 }
 
 void instructions() {
-  char data[BUFFER_SIZE];
+  char input[BUFFER_SIZE];
   printf("Do you want the game instructions? (y/n) ");
-  fgets(data, BUFFER_SIZE, stdin);
-  if (strcmp(data, "y\n") == 0) {
+  fgets(input, BUFFER_SIZE, stdin);
+  if (strcmp(input, "y\n") == 0) {
     printf("-----------------------------------------------------\n");
     printf("1.  Each player gets six buckets and one mancala(M).\n");
     printf("    The buckets and mandala (located at the ends) will be formatted as shown below.\n");
@@ -99,7 +114,7 @@ void instructions() {
     printf("    remaining marbles into their own mancala. The player with the most marbles\n");
     printf("    in their mancala is the winner of the game.\n");
   }
-  else if (strcmp(data,"n\n") == 0)
+  else if (strcmp(input,"n\n") == 0)
     return;
   else instructions();
 }

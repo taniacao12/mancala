@@ -3,10 +3,11 @@
 
 int main(int argc, char ** argv) {
   int server_socket;
-  char user[BUFFER_SIZE];
-  char start[BUFFER_SIZE];
+  int start = 0; // has the game started? 0 = false, 1 = true, -1 = quit
+  char input[BUFFER_SIZE]; // user input
   char buffer[BUFFER_SIZE];
   char data[BUFFER_SIZE];
+  //char user[BUFFER_SIZE];
 
   if (argc == 2)
     server_socket = client_setup( argv[1]);
@@ -21,20 +22,15 @@ int main(int argc, char ** argv) {
   printf("Waiting for other player to join...\n");
   char receive[100];
   read(server_socket, receive, 100);
-  printf("receive: [%s]\n", receive);
+  printf("%s\n", receive);
   
   // start game if user is ready
-  printf("If you are ready, press ENTER to start the game.");  
-  fgets(start, BUFFER_SIZE, stdin);
-  printf("-----------------------------------------------------\n");
-
-  // create board
+  start = game();
   int board[14];
   make(board);
   int sum = 0;
   
-  
-  while (1) {
+  while (start == 1) {
     // player waits for confirmation from the server to start
     int r0 = read(server_socket, data, BUFFER_SIZE);
 
