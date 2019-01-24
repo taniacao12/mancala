@@ -54,8 +54,8 @@ void print (int * board) {
   printf("     A   B   C   D   E   F   \n"); 
 }
 
-void turn() {
-
+void turn(int * board) {
+	board = read(server_socket, results, BUFFER_SIZE);
 }
 
 void make(int * board) {

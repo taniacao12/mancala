@@ -10,9 +10,6 @@ static void sighandler(int signo) {
   }
 }
 
-void subserver(int player1, int player2);
-void process(char * name);
-
 int main() {
   signal(SIGINT, sighandler);
   int listen_socket;
@@ -22,32 +19,33 @@ int main() {
   while (1) {
     int player1; 
     int player2;
-		
+
+	// connect with players
     player1 = server_connect(listen_socket);
     printf("[server] player1 connected... waiting for player2\n");
-		
-    player2= server_connect(listen_socket);
+	player2 = server_connect(listen_socket);
     printf("[server] player2 connected!\n");
-    char send1[100];
+    
+	char send1[100];
     char send2[100];
-    strcpy(send1, "player 2 connected!\n");
+    strcpy(send1, "Connected! You are player 1.\n");
+    strcpy(send2, "Connected! You are player 2.\n");
     write(player1, send1, 100);
-    strcpy(send2, "Connected! You are player 2\n");
     write(player2, send2, 100);
 		
     f = fork();
     if (f == 0)
       subserver(player1, player2);
-    else
+    else {
       close(player1);
-
-    // int client_socket = server_connect(listen_socket);
+	  close(player2);
+	}
   }
 }
 
 void subserver(int player1, int player2) {
   char buffer[BUFFER_SIZE];
-	
+  
   while(1){
     strcpy(buffer, "hello");
 	
@@ -56,26 +54,28 @@ void subserver(int player1, int player2) {
 	
     // gets player1's board response (a string instead of an array)
     read(player1, buffer, sizeof(buffer));
-    printf("[subserver %d] received: [%s]\n", getpid(), buffer);
+    printf("[subserver %d] received [%s] from player 1\n", getpid(), buffer);
 	
     // sends the string to player two 	
     // permits player2 to play
     write(player2, buffer, sizeof(buffer));
+	printf("[subserver %d] sent [%s] to player 2\n", getpid(), buffer);
 	
     // gets player2's board response (a string instead of an array)
     read(player2, buffer, sizeof(buffer));
-    printf("[subserver %d] received: [%s]\n", getpid(), buffer);
+    printf("[subserver %d] received [%s] from player 2\n", getpid(), buffer);
 	
-    // //sends the updated, processed board to player 2 so they can print it
-    // write(player2, buffer, sizeof(buffer));
+    //sends the updated, processed board to player 2 so they can print it
+    write(player2, buffer, sizeof(buffer));
+	printf("[subserver %d] sent [%s] to player 1\n", getpid(), buffer);
 		
-    // while (read(player2, buffer, sizeof(buffer))) {
-    // printf("[subserver %d] received: [%s]\n", getpid(), buffer);
-    // // process(buffer);
-	
-    // // sends the updated, processed board to player 2 so they can print it
-    // write(player2, buffer, sizeof(buffer));
-    // }
+    while (read(player2, buffer, sizeof(buffer))) {
+		printf("[subserver %d] received [%s]\n", getpid(), buffer);
+		// process(buffer);
+		
+		// sends the updated, processed board to player 2 so they can print it
+		write(player2, buffer, sizeof(buffer));
+    }
   }
   close(player1);
   close(player2);

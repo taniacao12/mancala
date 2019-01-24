@@ -1,3 +1,8 @@
+// functions for server ------------------------------------------------------------
+void subserver(int player1, int player2);
+void process(char * name);
+
+// functions for client ------------------------------------------------------------
 void instructions(); // display instructions
 void turn(); // play turn;
 
@@ -10,4 +15,4 @@ void listify (char * string, int * board); // convert string into int array
 int convert (char bucket); // convert user bucket of choice into integer
 
 // might not be necessary unless we implement restart game
-int * make(); // make new board
+void make(); // make new board
