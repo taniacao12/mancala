@@ -32,7 +32,7 @@ int main(int argc, char ** argv) {
     read(server_socket, data, BUFFER_SIZE);
 
     // check whose turn it is
-    if (data == 'gameOver')
+    if (data == "gameOver")
       start = 0;
     else {
       // process data recieved from server
@@ -47,7 +47,7 @@ int main(int argc, char ** argv) {
 	
       // check if game is over
       sum = 0;
-      for (int i = 7; i < 14; n++)
+      for (int i = 7; i < 14; i++)
 	sum += board[i];
       if (sum == 0)
 	start = 0;

@@ -54,9 +54,9 @@ void process (int * board) {
   int num;
   printf("Which cup would you like to choose? ");
   fgets(input, BUFFER_SIZE, stdin);
-  num = update(*input, board)
-    if (!num)
-      process();
+  num = update(*input, board);
+  if (!num)
+    process();
 }
 
 void print (int * board) {
