@@ -64,7 +64,6 @@ void subserver(int player1, int player2) {
 	
     // permits player2 to play
     write(player2, buffer, sizeof(buffer));
-    printf("[subserver %d] sent [%s] to player 2\n", getpid(), buffer);
 	
     // gets player2's board response (a string instead of an array)
     read(player2, buffer, sizeof(buffer));

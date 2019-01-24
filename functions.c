@@ -5,13 +5,14 @@ int check (int * board, int server_socket) {
   int user1 = 0;
   int user2 = 0;
     
-  for (int i = 7; i < 13; i++)
+  for (int i = 0; i < 6; i++) {
     user1 += board[i];
-  if (user1 == 0) {
-    user1 += board[13];
-    for (int i = 0; i < 7; i++)
-      user2 += board[i];
-    if (user2 > user1)
+	user2 += board[i+7];
+  }
+  if (user1 == 0 || user2 == 0) {
+    user1 += board[6];
+	user2 += board[13];
+    if (user1 > user2)
       write(server_socket, "lose", BUFFER_SIZE);
     else
       write(server_socket, "win", BUFFER_SIZE);
@@ -21,12 +22,15 @@ int check (int * board, int server_socket) {
 }
 
 void listify (char * string, int * board) {
+  char temp[14];
   for (int i = 0; i < 14; i++)
-    board[i] = string[i] - '0';
+	temp[i] = strsep(string, " ");
+  for (int i = 0; i < 14; i++)
+    board[i] = atoi(temp[i]);
 }
 
 void stringify (char * string, int * board) {
-  sprintf(string, "%d%d%d%d%d%d%d%d%d%d%d%d%d%d", board[0], board[1], board[2], board[3], board[4], board[5], board[6], board[7], board[8], board[9], board[10], board[11], board[12], board[13]);
+  sprintf(string, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d", board[0], board[1], board[2], board[3], board[4], board[5], board[6], board[7], board[8], board[9], board[10], board[11], board[12], board[13]);
 }
 
 void flip (int * board) {
