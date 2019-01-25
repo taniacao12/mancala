@@ -58,17 +58,14 @@ int update (char bucket, int * board) {
     return 0;
   else {
     for (int i = cup; i < 14 && board[cup] > 0; i++) {
-      if (board[i] == 9 && i != 13)
-	i++;
       board[i] += 1;
       board[cup] -= 1;
-      if (i == 13) {
-	if (board[i] == 10)
-	  board[i] = 0;
-	if (board[cup] > 0)
-	  i = -1;
-      }
+      if (i == 13 && board[cup] > 0)
+	i = -1;
     }
+    for (int i = cup; i < 14 && board[cup] > 0; i++)
+      if (board[i] == 10)
+	board[i] = 0;
     return 1;
   }
 }
