@@ -7,11 +7,11 @@ int check (int * board, int server_socket) {
     
   for (int i = 0; i < 6; i++) {
     user1 += board[i];
-	user2 += board[i+7];
+    user2 += board[i+7];
   }
   if (user1 == 0 || user2 == 0) {
     user1 += board[6];
-	user2 += board[13];
+    user2 += board[13];
     if (user1 > user2)
       write(server_socket, "lose", BUFFER_SIZE);
     else
@@ -22,14 +22,11 @@ int check (int * board, int server_socket) {
 }
 
 void listify (char * string, int * board) {
-  char temp[14];
+  char * temp[14];
   for (int i = 0; i < 14; i++)
-	temp[i] = strsep(string, " ");
-  for (int i = 0; i < 14; i++) {
-    board[i] = temp[i] - '0';
-	printf("temp[%d] = %d\n", i, temp[i]);
-	printf("board[%d] = %d\n", i, board[i]);
-  }
+    temp[i] = strsep(&string, " ");
+  for (int i = 0; i < 14; i++)
+    board[i] = atoi(temp[i]);
 }
 
 void stringify (char * string, int * board) {
